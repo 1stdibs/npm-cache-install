@@ -20,6 +20,6 @@
     "cleaninstall": "./cleaninstall.sh",
     "npm-cache-modules": "./build/cache-modules",
     "npm-restore-modules": "./build/restore-modules",
-    "npm-build-cache-post-install": "./build/post-install"
+    "npm-build-cache-sign-install": "./build/sign-install"
   }
 }

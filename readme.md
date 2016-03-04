@@ -14,14 +14,15 @@ Recomended script in `package.json`:
 ```json
 {
     "scripts": {
-        "cacheinstall": "restore-modules || cleaninstall && cache-modules"
+        "postinstall": "npm-build-cache-sign-install",
+        "cacheinstall": "npm-restore-modules || cleaninstall && npm-cache-modules"
     }
 }
 ```
 
 ## the scripts
 
-### `bin/post-install` / `.bin/npm-build-cache-post-install`
+### `bin/sign-install` / `.bin/npm-build-cache-sign-install`
 
 It is recomended that this script be run immediately after a clean install of `node_modules`. It will write the hash of your `package.json` in `node_modules/.npm-module-cache.hash`. `cache-modules` will fail if the hash of your current `package.json` does not equal the contents of this file.
 

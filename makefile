@@ -1,4 +1,4 @@
-all : build/cache-modules build/restore-modules build/post-install
+all : build/cache-modules build/restore-modules build/sign-install
 build :
 	mkdir -p build
 tmp : 
@@ -12,8 +12,8 @@ build/cache-modules : tmp/common.sh build
 build/restore-modules : tmp/common.sh build
 	cat tmp/common.sh src/npm-restore-modules.sh > build/restore-modules
 	chmod a+x build/restore-modules
-build/post-install : tmp/common.sh build
-	cat tmp/common.sh src/post-install.sh > build/post-install
-	chmod a+x build/post-install
+build/sign-install : tmp/common.sh build
+	cat tmp/common.sh src/sign-install.sh > build/sign-install
+	chmod a+x build/sign-install
 clean :
 	rm -rf tmp build
