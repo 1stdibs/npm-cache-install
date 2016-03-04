@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+		"prepublish": "make"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,8 @@
   "homepage": "https://github.com/antialias/npm-build-cache#readme",
   "bin": {
     "cleaninstall": "./cleaninstall.sh",
-    "use-cache": "./use-cache.sh",
-    "build-cache": "./build-cache.sh"
+    "npm-cache-modules": "./build/cache-modules",
+    "npm-restore-modules": "./build/restore-modules",
+    "npm-build-cache-post-install": "./build/post-install"
   }
 }

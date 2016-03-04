@@ -1,4 +1,5 @@
-# TODO: touch built node_modules directory
+# $hostNodeModules, $controlSocket, $ssh, $modulesHash set by common.sh
+
 echo "Conditionally fetching node_modules for $(pwd)"
 set -e # exit on error
 if [[ -z "$npmCacheHost" ]]
@@ -6,17 +7,11 @@ then
 	echo "npmCacheHost environment variable required"
 	exit 1
 fi
-hostDest='.npmbuildcache/'
-delim='-'
-host=$npmCacheHost
+if [[ -z "$hostDest" ]]
+then
+	hostDest='/tmp/node_modules-cache/'
+fi
 
-unameHash=$(uname -mprsv | shasum | cut -c 1-40)
-pjHash=$(node -e "with ($(cat package.json)) {console.log({dependencies, devDependencies})}" | shasum | cut -c 1-40)
-modulesHash="DEPS${pjHash}${delim}ARCH${unameHash}"
-
-hostNodeModules="node_modules-$modulesHash"
-controlSocket=/tmp/ssh-socket-$host-$(date +%s)
-ssh="ssh -S $controlSocket"
 $ssh -f -M $host sleep 1000 > /dev/null # background ssh control master for subsequent connections
 set +e # disable exit on error
 $ssh $host [ -d ${hostDest}$hostNodeModules ] &> /dev/null
