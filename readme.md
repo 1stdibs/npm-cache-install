@@ -21,11 +21,11 @@ Recomended script in `package.json`:
 
 ## the scripts
 
-### `post-install`
+### `bin/post-install` / `.bin/npm-build-cache-post-install`
 
 It is recomended that this script be run immediately after a clean install of `node_modules`. It will write the hash of your `package.json` in `node_modules/.npm-module-cache.hash`. `cache-modules` will fail if the hash of your current `package.json` does not equal the contents of this file.
 
-### `cache-modules`
+### `bin/cache-modules` / `.bin/npm-cache-modules`
 
 Uses ssh and scp to conditionally upload `node_modules` to `$npmCacheHost` as node_modules-DEPS${shasum of package.json}-ARCH${shasum of uname -mprsv}.
 
@@ -39,7 +39,7 @@ Recomendations:
 * Install a cronjob on the cache host that removes old cached `node_modules` directories. `preinstall.sh` touches the directory before downloading, so it should be sufficient to order the cached `node_modules` directories by date and `rm -rf` remove all but the first _N_.
 
 
-### `restore-modules`
+### `bin/restore-modules` / `.bin/npm-restore-modules`
 
 rsyncs the cached `node_modules` from the cache host to your machine, according to the current package.json and your machine's architecture.
 
