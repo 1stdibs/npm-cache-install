@@ -25,7 +25,7 @@ ssh="ssh -S $controlSocket"
 scp="scp -o ControlPath=$controlSocket"
 
 unameHash=$(uname -mprsv | shasum | cut -c 1-40)
-pjHash=$(node -e "var pj=($(cat package.json)); console.log({dependencies: pj.dependencies, devDependencies: pj.devDependencies})" | shasum | cut -c 1-40)
+pjHash=$(node -e "with ($(cat package.json)) {console.log({dependencies, devDependencies})}" | shasum | cut -c 1-40)
 modulesHash="DEPS${pjHash}${delim}ARCH${unameHash}"
 
 dirName=node_modules-$modulesHash
