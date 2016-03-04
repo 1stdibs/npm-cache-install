@@ -1,0 +1,24 @@
+{
+  "name": "npm-build-cache",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antialias/npm-build-cache.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antialias/npm-build-cache/issues"
+  },
+  "homepage": "https://github.com/antialias/npm-build-cache#readme",
+	"bin": {
+		"cleaninstall": "./cleaninstall.sh",
+		"use-cache": "./use-cache-bin.sh",
+		"build-cache": "./build-cache-bin.sh"
+	}
+}
