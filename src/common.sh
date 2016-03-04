@@ -16,3 +16,10 @@ controlSocket="/tmp/ssh-socket-$host-$(date +%s)"
 ssh="ssh -S $controlSocket"
 scp="scp -o ControlPath=$controlSocket"
 hashFilePath="node_modules/.npm-module-cache.hash"
+if [[ $(rsync --version | head -n1 | cut -f4 "-d " | cut -d. -f1) -gt 2 ]]
+then
+	rsync="rsync -h --info=progress2"
+else
+	echo "install rsync 3 or later for detailed progress"
+	rsync="rsync -h"
+fi
