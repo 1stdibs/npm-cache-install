@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prepublish": "make clean && make install"
+    "prepublish": "make clean && make all"
   },
   "repository": {
     "type": "git",
