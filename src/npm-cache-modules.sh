@@ -59,6 +59,7 @@ rm $tarPath
 echo "extracting your node_modules directory on $host at $hostDirPath"
 $ssh -T $host << script
 	rm -rf $hostDirPath $hostDirPath.part
+	mkdir $hostDirPath.part
 	tar xzf $hostTarPath -C $hostDirPath.part --strip-components 1
 	mv $hostDirPath.part $hostDirPath
 	rm -f $hostTarPath
