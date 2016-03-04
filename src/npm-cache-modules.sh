@@ -55,6 +55,11 @@ $scp $tarPath $host:$hostTarPath
 rm $tarPath
 echo "extracting your node_modules directory on $host at $hostDirPath"
 $ssh -T $host << script
+	if [[ -e $hostDirPath.part ]]
+	then
+		echo "$hostDirPath.part already exists on $host. An upload may currently be in progress."
+		exit 1
+	fi
 	rm -rf $hostDirPath $hostDirPath.part
 	mkdir $hostDirPath.part
 	tar xzf $hostTarPath -C $hostDirPath.part --strip-components 1
