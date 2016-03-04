@@ -15,7 +15,7 @@ Recomended script in `package.json`:
 {
     "scripts": {
         "postinstall": "npm-build-cache-sign-install",
-        "cacheinstall": "npm-restore-modules || cleaninstall && npm-cache-modules"
+        "cacheinstall": "npm-restore-modules || (cleaninstall && npm-cache-modules)"
     }
 }
 ```
