@@ -1,8 +1,8 @@
 # $ssh, scp, $unameHash, $modulesHash, $pjHash set by common.sh
 
-if [[ -e node_modules/.npm-module-cache.hash && pjHash != $(cat node_modules/.npm-module-cache.hash) ]]
+if [[ -e $hashFilePath && pjHash != $(cat $hashFilePath) ]]
 then
-	echo "node_modules/npm-module-cache.hash is not consistent with your package.json. Either bring back the package.json that was used to install them, or re-install your node_modules."
+	echo "$hashFilePath is not consistent with the hash of your package.json file. Either bring back the package.json that was used to install them, or re-install your node_modules."
 	exit 1
 fi
 
