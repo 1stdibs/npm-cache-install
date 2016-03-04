@@ -22,9 +22,6 @@ then
 	echo "cache does not exist at $host:${hostDest}$hostNodeModules"
 	exit $cacheExists
 fi
-set +e # dont exit on error
-$ssh $host touch -a ${hostDest}$hostNodeModules
-set -e # exit on error
 echo "pulling in your new modules from ${hostDest}$hostNodeModules"
 rsync -e "$ssh" --info=progress2 --delete -az $host:${hostDest}$hostNodeModules/ node_modules
 $ssh -q -O exit $host 2> /dev/null # close the ssh socket

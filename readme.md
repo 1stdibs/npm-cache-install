@@ -37,7 +37,7 @@ Environment variables:
 Recomendations:
 
 * configure authentication via ssh keys between your machine and `npmCacheHost` so you don't have to type your password every time this script is run.
-* Install a cronjob on the cache host that removes old cached `node_modules` directories. `preinstall.sh` touches the directory before downloading, so it should be sufficient to order the cached `node_modules` directories by date and `rm -rf` remove all but the first _N_.
+* Install a cronjob on the cache host that removes `node_modules` directories with old access times.
 
 
 ### `bin/restore-modules` / `.bin/npm-restore-modules`
