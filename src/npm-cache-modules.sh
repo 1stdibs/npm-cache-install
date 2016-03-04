@@ -1,6 +1,6 @@
 # $ssh, scp, $unameHash, $modulesHash, $pjHash set by common.sh
 
-if [[ -e $hashFilePath && pjHash != $(cat $hashFilePath) ]]
+if [[ -e $hashFilePath && $pjHash != $(cat $hashFilePath) ]]
 then
 	echo "$hashFilePath is not consistent with the hash of your package.json file. Either bring back the package.json that was used to install them, or re-install your node_modules."
 	exit 1
