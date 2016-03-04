@@ -1,6 +1,6 @@
 {
   "name": "npm-build-cache",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -16,9 +16,9 @@
     "url": "https://github.com/antialias/npm-build-cache/issues"
   },
   "homepage": "https://github.com/antialias/npm-build-cache#readme",
-	"bin": {
-		"cleaninstall": "./cleaninstall.sh",
-		"use-cache": "./use-cache.sh",
-		"build-cache": "./build-cache.sh"
-	}
+  "bin": {
+    "cleaninstall": "./cleaninstall.sh",
+    "use-cache": "./use-cache.sh",
+    "build-cache": "./build-cache.sh"
+  }
 }
