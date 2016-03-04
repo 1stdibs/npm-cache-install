@@ -19,7 +19,7 @@ in `package.json`:
 
 ## the scripts
 
-###`build-cache.sh`
+###`.bin/build-cache`
 
 Uses ssh and scp to conditionally upload `node_modules` to `$npmCacheHost` as node_modules-DEPS${shasum of package.json}-ARCH${shasum of uname -mprsv}.
 
@@ -32,7 +32,7 @@ Recomendations:
 * Install a cronjob on the cache host that removes old cached `node_modules` directories. `preinstall.sh` touches the directory before downloading, so it should be sufficient to order the cached `node_modules` directories by date and `rm -rf` remove all but the first _N_.
 
 
-### `use-cache.sh`
+### `.bin/use-cache`
 
 rsyncs the cached `node_modules` from the cache host to your machine, according to the current package.json and your machine's architecture.
 
