@@ -21,7 +21,11 @@ Recomended script in `package.json`:
 
 ## the scripts
 
-###`cache-modules`
+### `post-install`
+
+It is recomended that this script be run immediately after a clean install of `node_modules`. It will write the hash of your `package.json` in `node_modules/.npm-module-cache.hash`. `cache-modules` will fail if the hash of your current `package.json` does not equal the contents of this file.
+
+### `cache-modules`
 
 Uses ssh and scp to conditionally upload `node_modules` to `$npmCacheHost` as node_modules-DEPS${shasum of package.json}-ARCH${shasum of uname -mprsv}.
 
