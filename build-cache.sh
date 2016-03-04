@@ -1,8 +1,13 @@
 echo "Conditionally caching node_modules for $(pwd)"
 set -e # exit on error
-dn=$(dirname $0)
-$dn/lib/checkEnv.sh # ensures npmCacheHost
-source $dn/lib/constants.sh # sets hostDest
+if [[ -z "$npmCacheHost" ]]
+then
+	echo "npmCacheHost environment variable required"
+	exit 1
+fi
+
+hostDest='.npmbuildcache/'
+delim='-'
 host=$npmCacheHost
 hostDest='.npmbuildcache/'
 controlSocket=/tmp/ssh-socket-$host-$(date +%s)
@@ -18,7 +23,11 @@ else
 fi
 ssh="ssh -S $controlSocket"
 scp="scp -o ControlPath=$controlSocket"
-modulesHash=$($dn/lib/modulesHash.sh)
+
+unameHash=$(uname -mprsv | shasum | cut -c 1-40)
+pjHash=$(node -e "var pj=($(cat package.json)); console.log({dependencies: pj.dependencies, devDependencies: pj.devDependencies})" | shasum | cut -c 1-40)
+modulesHash="DEPS${pjHash}${delim}ARCH${unameHash}"
+
 dirName=node_modules-$modulesHash
 tarName=$dirName.tgz
 tarPath=/tmp/$tarName

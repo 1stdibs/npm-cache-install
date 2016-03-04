@@ -18,7 +18,7 @@
   "homepage": "https://github.com/antialias/npm-build-cache#readme",
 	"bin": {
 		"cleaninstall": "./cleaninstall.sh",
-		"use-cache": "./use-cache-bin.sh",
-		"build-cache": "./build-cache-bin.sh"
+		"use-cache": "./use-cache.sh",
+		"build-cache": "./build-cache.sh"
 	}
 }
