@@ -50,6 +50,11 @@ echo "Hash for your package.json is $modulesHash"
 echo "Creating tgz of your node_modules in $tarPath. This may take a while if node_nodules is big."
 $tar czf $tarPath node_modules
 $ssh $host "mkdir -p $hostDest"
+if $ssh $host stat $hostTarPath
+then
+	echo "$hostTarPath already exists on $host. Aborting because an upload may be in progress from elsewhere."
+	exit 1
+fi
 echo "uploading $tarPath to $host:$hostTarPath"
 $scp $tarPath $host:$hostTarPath
 rm $tarPath
