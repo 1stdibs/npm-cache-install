@@ -1,7 +1,13 @@
 delim='-'
 host=$npmCacheHost
+packageJson=$(cat package.json)
+if [[ -z "$packageJson" ]]
+then
+	echo "package.json must be in cwd"
+	exit 1
+fi
 pjHash=$(node << jscode | shasum | cut -c 1-40
-with ($(cat package.json)) {
+with ($packageJson) {
 	console.log({
 		dependencies,
 		devDependencies
