@@ -14,7 +14,8 @@ fi
 
 $ssh -f -M $host sleep 1000 > /dev/null # background ssh control master for subsequent connections
 set +e # disable exit on error
-$ssh $host [ -d ${hostDest}$hostNodeModules ] &> /dev/null
+pathToModulesOnHost=${hostDest}$hostNodeModules
+$ssh $host [ -d $pathToModulesOnHost ] &> /dev/null
 cacheExists=$?
 set -e # enable exit on error
 if [[ $cacheExists -ne 0 ]]
@@ -22,6 +23,10 @@ then
 	echo "cache does not exist at $host:${hostDest}$hostNodeModules"
 	exit $cacheExists
 fi
-echo "pulling in your new modules from ${hostDest}$hostNodeModules"
-$rsync -e "$ssh" --delete -az $host:${hostDest}$hostNodeModules/ node_modules
+if ! $ssh $host touch -c $pathToModulesOnHost
+then
+	echo "error when attempting to touch modules on $host at $pathToModulesOnHost"
+fi
+echo "pulling in your new modules from $pathToModulesOnHost"
+$rsync -e "$ssh" --delete -az $host:$pathToModulesOnHost/ node_modules
 $ssh -q -O exit $host 2> /dev/null # close the ssh socket
