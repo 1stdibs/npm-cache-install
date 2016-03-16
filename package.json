@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "bats test/*.bats",
     "prepublish": "make clean && make all"
   },
   "repository": {
@@ -21,5 +22,9 @@
     "npm-cache-modules": "./build/cache-modules",
     "npm-restore-modules": "./build/restore-modules",
     "npm-build-cache-sign-install": "./build/sign-install"
+  },
+  "devDependencies": {
+    "bats": "^0.4.2",
+    "jq-cli-wrapper": "^0.3.0"
   }
 }
