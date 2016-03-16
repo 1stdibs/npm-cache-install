@@ -4,7 +4,7 @@ build :
 tmp : 
 	mkdir -p tmp
 tmp/common.sh : tmp
-	cat src/common.sh > tmp/common.sh
+	cat src/shebang.sh src/common.sh > tmp/common.sh
 	chmod a+x tmp/common.sh
 build/cache-modules : tmp/common.sh build
 	cat tmp/common.sh src/npm-cache-modules.sh > build/cache-modules
