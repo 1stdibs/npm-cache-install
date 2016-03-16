@@ -9,8 +9,8 @@ fi
 pjHash=$(node << jscode | shasum | cut -c 1-40
 with ($packageJson) {
 	console.log({
-		dependencies,
-		devDependencies
+		dependencies: dependencies,
+		devDependencies: devDependencies
 	})
 }
 jscode
