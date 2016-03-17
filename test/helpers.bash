@@ -1,10 +1,15 @@
 setup() {
+	export npmCacheHost="mockhost"
+	export hostDest="./"
 	export build="$(pwd)/build"
 	export testStart=$(pwd)
-	export testTmp=$testStart/testtmp
+	export testTmp="$testStart/testTmp"
+	export testPkg="$testTmp/pkg"
+	export remote="$testTmp/remote"
 	export PATH="$testStart/test/bin-mock:$PATH"
-	mkdir -p $testTmp
-	cd $testTmp
+	mkdir -p $testPkg
+	mkdir -p $remote
+	cd $testPkg
 	makePackageJson
 	mkdir -p node_modules
 	source $build/common
