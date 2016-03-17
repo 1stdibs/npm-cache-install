@@ -6,6 +6,7 @@ setup() {
 	cd $testTmp
 	makePackageJson
 	mkdir -p node_modules
+	source $build/common
 }
 teardown() {
 	cd $testStart
