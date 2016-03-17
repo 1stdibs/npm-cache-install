@@ -2,6 +2,7 @@ setup() {
 	export build="$(pwd)/build"
 	export testStart=$(pwd)
 	export testTmp=$testStart/testtmp
+	export PATH="$testStart/test/bin-mock:$PATH"
 	mkdir -p $testTmp
 	cd $testTmp
 	makePackageJson
