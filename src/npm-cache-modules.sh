@@ -31,7 +31,9 @@ fi
 
 dirName=node_modules-$modulesHash
 tarName=$dirName.tgz
-tarPath=/tmp/$tarName
+tmp=".npm-build-cache-tmp"
+mkdir -p $tmp
+tarPath=$tmp/$tarName
 hostTarPath=$hostDest$tarName
 hostDirPath=$hostDest$dirName
 $ssh -f -M $host sleep 1000 > /dev/null # background ssh control master for subsequent connections
@@ -57,7 +59,7 @@ then
 fi
 echo "uploading $tarPath to $host:$hostTarPath"
 $scp $tarPath $host:$hostTarPath
-rm $tarPath
+rm -rf $tarPath $tmp
 echo "extracting your node_modules directory on $host at $hostDirPath"
 $ssh -T $host << script
 	if [[ -e $hostDirPath.part ]]
