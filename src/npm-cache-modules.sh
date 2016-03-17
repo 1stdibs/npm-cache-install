@@ -1,4 +1,4 @@
-# $ssh, scp, $unameHash, $modulesHash, $pjHash set by common.sh
+# $ssh, scp, $unameHash, $modulesHash, $pjHash, $hostTarPath, $hostDirPath, $tarName, $dirName set by common.sh
 
 if [[ -e $hashFilePath && $pjHash != $(cat $hashFilePath) ]]
 then
@@ -29,13 +29,9 @@ else
 	fi
 fi
 
-dirName=node_modules-$modulesHash
-tarName=$dirName.tgz
 tmp=".npm-build-cache-tmp"
 mkdir -p $tmp
 tarPath=$tmp/$tarName
-hostTarPath=$hostDest$tarName
-hostDirPath=$hostDest$dirName
 $ssh -f -M $host sleep 1000 > /dev/null # background ssh control master for subsequent connections
 set +e # no exit on error
 $ssh $host stat $hostDirPath &> /dev/null
