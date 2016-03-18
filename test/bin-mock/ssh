@@ -1,0 +1,68 @@
+shellExitCode=0
+if ! [ -z $remote ]
+then
+    pushd $remote
+    pushed=true
+fi
+while [ "$#" -gt 0 ]
+do
+    case "$1" in
+        -S)
+            shift
+            socket="$1"
+            shift
+            ;;
+        -O)
+            shift
+            socketCommand="$1"
+            shift
+            ;;
+        -o)
+            shift
+            optionName="$1"
+            shift
+            ;;
+        -T)
+            shift
+            ;;
+        -M)
+            shift
+            ;;
+        -q)
+            shift
+            ;;
+        -f)
+            background="true"
+            shift
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+hostname=$1
+shift
+if ! [[ -z $socketCommand ]]
+then
+    exit
+fi
+cmd=$@
+if ! [[ -z "$cmd" ]]
+then
+    bash="eval $cmd"
+else
+    bash="bash"
+fi
+if [[ -z "$background" ]]
+then
+    $bash
+    shellExitCode=$?
+else
+    $bash &
+    shellExitCode=$?
+fi
+if ! [ -z $pushed ]
+then
+    popd
+fi
+exit $shellExitCode

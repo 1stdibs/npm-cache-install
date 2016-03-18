@@ -1,4 +1,4 @@
-# $ssh, scp, $unameHash, $modulesHash, $pjHash set by common.sh
+# $ssh, scp, $unameHash, $modulesHash, $pjHash, $hostTarPath, $hostDirPath, $tarName, $dirName set by common.sh
 
 if [[ -e $hashFilePath && $pjHash != $(cat $hashFilePath) ]]
 then
@@ -29,18 +29,11 @@ else
 	fi
 fi
 
-dirName=node_modules-$modulesHash
-tarName=$dirName.tgz
-tarPath=/tmp/$tarName
-hostTarPath=$hostDest$tarName
-hostDirPath=$hostDest$dirName
+tmp=".npm-build-cache-tmp"
+mkdir -p $tmp
+tarPath=$tmp/$tarName
 $ssh -f -M $host sleep 1000 > /dev/null # background ssh control master for subsequent connections
-set +e # no exit on error
-$ssh $host stat $hostDirPath &> /dev/null
-exists=$?
-set -e # exit on error
-send=true
-if [[ -z "$forceUpload" && $exists -eq 0 ]]
+if [[ -z "$forceUpload" ]] && ( $ssh $host stat $hostDirPath &> /dev/null )
 then
 	echo "node_modules for your package.json have already been cached"
 	$ssh -q -O exit $host 2> /dev/null # close the ssh socket
@@ -57,7 +50,7 @@ then
 fi
 echo "uploading $tarPath to $host:$hostTarPath"
 $scp $tarPath $host:$hostTarPath
-rm $tarPath
+rm -rf $tarPath $tmp
 echo "extracting your node_modules directory on $host at $hostDirPath"
 $ssh -T $host << script
 	if [[ -e $hostDirPath.part ]]

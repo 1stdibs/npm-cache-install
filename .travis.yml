@@ -1,0 +1,9 @@
+language: bash
+before_script:
+  - npm run prepublish
+install:
+  - npm install
+script:
+  - npm test
+node_js:
+  - '4.2.2'
