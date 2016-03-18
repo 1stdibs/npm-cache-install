@@ -1,0 +1,8 @@
+fromSpec="${@:(-2):1}"
+toSpec="${!#}"
+fromHost=$(echo $fromSpec | cut -d: -f1)
+fromPath=$(echo $fromSpec | cut -d: -f2)
+toHost=$(echo $toSpec | cut -d: -f1)
+toPath=$(echo $toSpec | cut -d: -f2)
+rm -rf $toPath
+cp -R $remote/$fromPath $toPath
