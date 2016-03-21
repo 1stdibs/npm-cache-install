@@ -1,3 +1,8 @@
+if [[ "$1" = "--version" ]]
+then
+    exit 0
+fi
+echo rsync args were "$@"
 fromSpec="${@:(-2):1}"
 toSpec="${!#}"
 fromHost=$(echo $fromSpec | cut -d: -f1)
