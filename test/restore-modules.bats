@@ -1,9 +1,11 @@
 #!/usr/bin/env bats
 load helpers
 @test "restore-modules should fail if cache doesnt exist on remote" {
-	! [[ -d $remote/$hostDest$dirName ]]
-	run $build/restore-modules
-	! [[ $status -eq 0 ]]
+	[[ -d "$remote/$hostDest$dirName" ]]
+	echo "$remote/$hostDest$dirName" exists
+	# run $build/restore-modules
+	test 1 -eq 2
+	# ! [[ $status -eq 0 ]]
 }
 @test "restore-modules should restore node_modules from remote" {
 	# TODO: get this working on travis
