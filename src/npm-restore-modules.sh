@@ -13,12 +13,8 @@ then
 fi
 
 $ssh -f -M $host sleep 1000 > /dev/null # background ssh control master for subsequent connections
-set +e # disable exit on error
 pathToModulesOnHost=${hostDest}$hostNodeModules
-$ssh $host [ -d $pathToModulesOnHost ] &> /dev/null
-cacheExists=$?
-set -e # enable exit on error
-if [[ $cacheExists -ne 0 ]]
+if ! $ssh $host [ -d $pathToModulesOnHost ] &> /dev/null
 then
 	echo "cache does not exist at $host:${hostDest}$hostNodeModules"
 	exit $cacheExists
