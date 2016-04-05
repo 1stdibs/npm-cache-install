@@ -1,11 +1,23 @@
 delim='-'
-host=$npmCacheHost
 packageJson=$(cat package.json)
 if [[ -z "$packageJson" ]]
 then
 	echo "package.json must be in cwd"
 	exit 1
 fi
+if [[ -e $HOME/.npm-cache-install ]]
+then
+	source $HOME/.npm-cache-install
+fi
+cacheInstallFromPackageJson=$(node -e "console.log(($packageJson).cacheInstall)")
+if [[ "undefined" != "$cacheInstallFromPackageJson" ]]
+then
+	echo cacheInstallFromPackageJson $cacheInstallFromPackageJson
+	# let (package.json).cacheInstall override values in .npm-cache-install
+	export npmCacheHost=$(node -e "console.log(($packageJson).cacheInstall.host || '')")
+	export hostDest=$(node -e "console.log(($packageJson).cacheInstall.path || '')")
+fi
+host=$npmCacheHost
 pjHash=$(node << jscode | shasum | cut -c 1-40
 with ($packageJson) {
 	console.log({

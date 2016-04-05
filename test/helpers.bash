@@ -7,6 +7,7 @@ setup() {
 	export testPkg="$testTmp/pkg"
 	export remote="$testTmp/remote"
 	export PATH="$testStart/test/bin-mock:$PATH"
+	export HOME=$testTmp
 	mkdir -p $testPkg
 	mkdir -p $remote
 	cd $testPkg
@@ -19,8 +20,14 @@ teardown() {
 	rm -rf testtmp
 }
 makePackageJson() {
+	extra=""
+	if [[ -n "$1" ]]
+	then
+		extra="$1,"
+	fi
 	cat << json > package.json
 {
+	$extra
 	"dependencies": {
 		"foo": "1.0.0",
 		"bar": "1.0.0"
@@ -31,4 +38,11 @@ makePackageJson() {
 	}
 }
 json
+}
+writeDotFile() {
+	echo $HOME/.npm-cache-install
+	cat > $HOME/.npm-cache-install << DOTFILE
+export hostDest="dotfilehostdest"
+export npmCacheHost="dotfilecachehost"
+DOTFILE
 }
