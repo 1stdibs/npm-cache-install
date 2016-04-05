@@ -30,8 +30,8 @@ The configuration values can be set in one of two ways:
 ### as environment variables
 
 ```sh
-cacheInstallHost # sets cacheInstall.host
-cacheInstallDest # sets cacheInstall.path
+export cacheInstallHost="modulecache.example.com" # sets cacheInstall.host
+export cacheInstallDest="/path/to/module/cache" # sets cacheInstall.path
 ```
 
 All scripts source `$HOME/.npm-cache-install` before they run, so you can set these values there.
