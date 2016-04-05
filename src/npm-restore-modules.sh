@@ -2,21 +2,21 @@
 
 echo "Conditionally fetching node_modules for $(pwd)"
 set -e # exit on error
-if [[ -z "$npmCacheHost" ]]
+if [[ -z "$cacheInstallHost" ]]
 then
-	echo "npmCacheHost environment variable required"
+	echo "cacheInstallHost environment variable required"
 	exit 1
 fi
-if [[ -z "$hostDest" ]]
+if [[ -z "$cacheInstallDest" ]]
 then
-	hostDest='/tmp/node_modules-cache/'
+	cacheInstallDest='/tmp/node_modules-cache/'
 fi
 
 $ssh -f -M $host sleep 1000 > /dev/null # background ssh control master for subsequent connections
-pathToModulesOnHost=${hostDest}$hostNodeModules
+pathToModulesOnHost=${cacheInstallDest}$hostNodeModules
 if ! $ssh $host [ -d $pathToModulesOnHost ] &> /dev/null
 then
-	echo "cache does not exist at $host:${hostDest}$hostNodeModules"
+	echo "cache does not exist at $host:${cacheInstallDest}$hostNodeModules"
 	exit 1
 fi
 if ! $ssh $host touch -c $pathToModulesOnHost

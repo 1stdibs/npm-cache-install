@@ -14,10 +14,10 @@ if [[ "undefined" != "$cacheInstallFromPackageJson" ]]
 then
 	echo cacheInstallFromPackageJson $cacheInstallFromPackageJson
 	# let (package.json).cacheInstall override values in .npm-cache-install
-	export npmCacheHost=$(node -e "console.log(($packageJson).cacheInstall.host || '')")
-	export hostDest=$(node -e "console.log(($packageJson).cacheInstall.path || '')")
+	export cacheInstallHost=$(node -e "console.log(($packageJson).cacheInstall.host || '')")
+	export cacheInstallDest=$(node -e "console.log(($packageJson).cacheInstall.path || '')")
 fi
-host=$npmCacheHost
+host=$cacheInstallHost
 pjHash=$(node << jscode | shasum | cut -c 1-40
 with ($packageJson) {
 	console.log({
@@ -36,8 +36,8 @@ scp="scp -o ControlPath=$controlSocket"
 hashFilePath="node_modules/.npm-module-cache.hash"
 export dirName=node_modules-$modulesHash
 export tarName=$dirName.tgz
-export hostDirPath=$hostDest$dirName
-export hostTarPath=$hostDest$tarName
+export hostDirPath=$cacheInstallDest$dirName
+export hostTarPath=$cacheInstallDest$tarName
 if [[ $(rsync --version | head -n1 | cut -f4 "-d " | cut -d. -f1) -gt 2 ]]
 then
 	rsync="rsync -h --info=progress2"

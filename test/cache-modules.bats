@@ -4,10 +4,10 @@ load helpers
 	run $build/sign-install
 	run $build/cache-modules
 	first=$status
-	firstMtime=$(stat $remote/$hostDest$hostDirPath)
+	firstMtime=$(stat $remote/$cacheInstallDest$hostDirPath)
 	run $build/cache-modules
 	second=$status
-	secondMtime=$(stat $remote/$hostDest$hostDirPath)
+	secondMtime=$(stat $remote/$cacheInstallDest$hostDirPath)
 	[[ $first -eq 0 ]]
 	[[ $second -eq 0 ]]
 	! [[ -z "$firstMtime" ]]
@@ -18,10 +18,10 @@ load helpers
 	run $build/sign-install
 	run $build/cache-modules
 	first=$status
-	firstMtime=$(stat $remote/$hostDest$hostDirPath)
+	firstMtime=$(stat $remote/$cacheInstallDest$hostDirPath)
 	forceUpload=true $build/cache-modules # bats run doesnt allow setting inline environemnt variables
 	second=$?
-	secondMtime=$(stat $remote/$hostDest$hostDirPath)
+	secondMtime=$(stat $remote/$cacheInstallDest$hostDirPath)
 	[[ $first -eq 0 ]]
 	[[ $second -eq 0 ]]
 	! [[ -z "$firstMtime" ]]
@@ -31,7 +31,7 @@ load helpers
 @test "cache-modules copies node_modules over to the remote" {
 	run $build/sign-install
 	run $build/cache-modules # copies node_modules and exports hostDirPath so we know where to look
-	diff -r $testPkg/node_modules $remote/$hostDest$dirName
+	diff -r $testPkg/node_modules $remote/$cacheInstallDest$dirName
 }
 @test "cache-modules fails if hostDirPath.part exists" {
 	mkdir "$remote/$hostDirPath.part"

@@ -1,44 +1,44 @@
 #!/usr/bin/env bats
 load helpers
-@test 'common sets npmCacheHost and hostDest from $HOME/.npm-cache-install' {
+@test 'common sets cacheInstallHost and cacheInstallDest from $HOME/.npm-cache-install' {
 	writeDotFile
-	hostDest=""
-	npmCacheHost=""
+	cacheInstallDest=""
+	cacheInstallHost=""
 	load $build/common
-	[[ "$hostDest" = "dotfilehostdest" ]]
-	[[ "$npmCacheHost" = "dotfilecachehost" ]]
+	[[ "$cacheInstallDest" = "dotfilecacheInstallDest" ]]
+	[[ "$cacheInstallHost" = "dotfilecachehost" ]]
 }
-@test 'common sets npmCacheHost and hostDest from package.json when cacheinstall property is present' {
+@test 'common sets cacheInstallHost and cacheInstallDest from package.json when cacheinstall property is present' {
 	writeDotFile
 	makePackageJson '"cacheInstall": {
 		"host": "pjhost",
 		"path": "pjpath"
 	}'
-	hostDest=""
-	npmCacheHost=""
+	cacheInstallDest=""
+	cacheInstallHost=""
 	load $build/common
-	[[ "$hostDest" = "pjpath" ]]
-	[[ "$npmCacheHost" = "pjhost" ]]
+	[[ "$cacheInstallDest" = "pjpath" ]]
+	[[ "$cacheInstallHost" = "pjhost" ]]
 }
-@test 'common unsets hostDest when it is specified in dotfile but not specified in package.json' {
+@test 'common unsets cacheInstallDest when it is specified in dotfile but not specified in package.json' {
 	writeDotFile
 	makePackageJson '"cacheInstall": {
 		"host": "pjhost"
 	}'
-	hostDest=""
-	npmCacheHost=""
+	cacheInstallDest=""
+	cacheInstallHost=""
 	load $build/common
-	[[ -z "$hostDest" ]]
-	[[ "$npmCacheHost" = "pjhost" ]]
+	[[ -z "$cacheInstallDest" ]]
+	[[ "$cacheInstallHost" = "pjhost" ]]
 }
-@test 'common unsets npmCacheHost when it is specified in dotfile but not specified in package.json' {
+@test 'common unsets cacheInstallHost when it is specified in dotfile but not specified in package.json' {
 	writeDotFile
 	makePackageJson '"cacheInstall": {
 		"path": "pjpath"
 	}'
-	hostDest=""
-	npmCacheHost=""
+	cacheInstallDest=""
+	cacheInstallHost=""
 	load $build/common
-	[[ "$hostDest" = "pjpath" ]]
-	[[ -z "$npmCacheHost" ]]
+	[[ "$cacheInstallDest" = "pjpath" ]]
+	[[ -z "$cacheInstallHost" ]]
 }

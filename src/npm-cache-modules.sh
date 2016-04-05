@@ -8,15 +8,15 @@ fi
 
 echo "Conditionally caching node_modules for $(pwd)"
 set -e # exit on error
-if [[ -z "$npmCacheHost" ]]
+if [[ -z "$cacheInstallHost" ]]
 then
-	echo "npmCacheHost environment variable required"
+	echo "cacheInstallHost environment variable required"
 	exit 1
 fi
 
-if [[ -z "$hostDest" ]]
+if [[ -z "$cacheInstallDest" ]]
 then
-	hostDest='/tmp/node_modules-cache/'
+	cacheInstallDest='/tmp/node_modules-cache/'
 fi
 if which gtar
 then
@@ -42,7 +42,7 @@ fi
 echo "Hash for your package.json is $modulesHash"
 echo "Creating tgz of your node_modules in $tarPath. This may take a while if node_nodules is big."
 $tar czf $tarPath node_modules
-$ssh $host "mkdir -p $hostDest"
+$ssh $host "mkdir -p $cacheInstallDest"
 if $ssh $host stat $hostTarPath
 then
 	echo "$hostTarPath already exists on $host. Aborting because an upload may be in progress from elsewhere."
