@@ -22,8 +22,8 @@ Recomended script in `package.json`:
 
 ## configuration
 
-`cacheInstall.host` sets the hostname of the cache server
-`cacheInstall.path` sets the path to the cache on the cache server
+* `cacheInstall.host` sets the hostname of the cache server
+* `cacheInstall.path` sets the path to the cache on the cache server
 
 The configuration values can be set in one of two ways:
 
