@@ -27,11 +27,11 @@ fi
 tmp=".npm-build-cache-tmp"
 mkdir -p $tmp
 tarPath=$tmp/$tarName
-$ssh -f -M $host sleep 1000 > /dev/null # background ssh control master for subsequent connections
+openSSHSocket
 if [[ -z "$forceUpload" ]] && ( $ssh $host stat $hostDirPath &> /dev/null )
 then
 	echo "node_modules for your package.json have already been cached"
-	$ssh -q -O exit $host 2> /dev/null # close the ssh socket
+	closeSSHSocket
 	exit
 fi
 echo "Hash for your package.json is $modulesHash"
@@ -60,4 +60,4 @@ $ssh -T $host << script
 	rm -f $hostTarPath
 script
 echo "your current node_modules directory is now cached on $host at $hostDirPath"
-$ssh -q -O exit $host 2> /dev/null # close the ssh socket
+closeSSHSocket

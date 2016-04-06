@@ -55,3 +55,9 @@ else
 	echo "install rsync 3 or later for detailed progress"
 	rsync="rsync -h"
 fi
+openSSHSocket() {
+	$ssh -f -M $host sleep 1000 > /dev/null # background ssh control master for subsequent connections
+}
+closeSSHSocket() {
+	$ssh -q -O exit $host 2> /dev/null # close the ssh socket
+}
