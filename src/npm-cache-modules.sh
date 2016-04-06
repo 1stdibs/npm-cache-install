@@ -1,4 +1,4 @@
-# $ssh, scp, $unameHash, $modulesHash, $pjHash, $hostTarPath, $hostDirPath, $tarName, $dirName set by common.sh
+# $host, $ssh, scp, $unameHash, $modulesHash, $pjHash, $hostTarPath, $hostDirPath, $tarName, $dirName set by common.sh
 
 if [[ -e $hashFilePath && $pjHash != $(cat $hashFilePath) ]]
 then
