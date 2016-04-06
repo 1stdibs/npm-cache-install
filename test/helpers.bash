@@ -20,14 +20,8 @@ teardown() {
 	rm -rf testtmp
 }
 makePackageJson() {
-	extra=""
-	if [[ -n "$1" ]]
-	then
-		extra="$1,"
-	fi
 	cat << json > package.json
 {
-	$extra
 	"dependencies": {
 		"foo": "1.0.0",
 		"bar": "1.0.0"

@@ -10,10 +10,11 @@ load helpers
 }
 @test 'common sets cacheInstallHost and cacheInstallDest from package.json when cacheinstall property is present' {
 	writeDotFile
-	makePackageJson '"cacheInstall": {
+	makePackageJson
+	cat package.json | jq '.cacheInstall={
 		"host": "pjhost",
 		"path": "pjpath"
-	}'
+	}' > package.json
 	cacheInstallDest=""
 	cacheInstallHost=""
 	load $build/common
@@ -22,9 +23,10 @@ load helpers
 }
 @test 'common unsets cacheInstallDest when it is specified in dotfile but not specified in package.json' {
 	writeDotFile
-	makePackageJson '"cacheInstall": {
+	makePackageJson
+	cat package.json | jq '.cacheInstall={
 		"host": "pjhost"
-	}'
+	}' > package.json
 	cacheInstallDest=""
 	cacheInstallHost=""
 	load $build/common
@@ -33,9 +35,10 @@ load helpers
 }
 @test 'common unsets cacheInstallHost when it is specified in dotfile but not specified in package.json' {
 	writeDotFile
-	makePackageJson '"cacheInstall": {
+	makePackageJson
+	cat package.json | jq '.cacheInstall={
 		"path": "pjpath"
-	}'
+	}' > package.json
 	cacheInstallDest=""
 	cacheInstallHost=""
 	load $build/common
