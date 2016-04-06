@@ -8,11 +8,6 @@ fi
 
 echo "Conditionally caching node_modules for $(pwd)"
 set -e # exit on error
-if [[ -z "$cacheInstallHost" ]]
-then
-	echo "cacheInstallHost environment variable required"
-	exit 1
-fi
 
 if [[ -z "$cacheInstallPath" ]]
 then

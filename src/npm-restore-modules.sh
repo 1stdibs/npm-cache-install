@@ -7,10 +7,6 @@ then
 	echo "cacheInstallHost environment variable required"
 	exit 1
 fi
-if [[ -z "$cacheInstallDest" ]]
-then
-	cacheInstallDest='/tmp/node_modules-cache/'
-fi
 
 $ssh -f -M $host sleep 1000 > /dev/null # background ssh control master for subsequent connections
 pathToModulesOnHost=${cacheInstallPath}$hostNodeModules

@@ -30,7 +30,7 @@ load helpers
 	cacheInstallPath=""
 	cacheInstallHost=""
 	load $build/common
-	[[ -z "$cacheInstallDest" ]]
+	[[ "$cacheInstallPath" = "/tmp/node_modules-cache/" ]]
 	[[ "$cacheInstallHost" = "pjhost" ]]
 }
 @test 'common unsets cacheInstallHost when it is specified in dotfile but not specified in package.json' {
@@ -43,5 +43,5 @@ load helpers
 	cacheInstallHost=""
 	load $build/common
 	[[ "$cacheInstallPath" = "pjpath" ]]
-	[[ -z "$cacheInstallHost" ]]
+	[[ "$cacheInstallHost" = "localhost" ]]
 }

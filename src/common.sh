@@ -17,6 +17,14 @@ then
 	export cacheInstallHost=$(node -e "console.log(($packageJson).cacheInstall.host || '')")
 	export cacheInstallPath=$(node -e "console.log(($packageJson).cacheInstall.path || '')")
 fi
+if [[ -z "$cacheInstallHost" ]]
+then
+	cacheInstallHost='localhost'
+fi
+if [[ -z "$cacheInstallPath" ]]
+then
+	cacheInstallPath='/tmp/node_modules-cache/'
+fi
 host=$cacheInstallHost
 pjHash=$(node << jscode | shasum | cut -c 1-40
 with ($packageJson) {
