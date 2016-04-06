@@ -18,7 +18,11 @@ then
 	export cacheInstallDest=$(node -e "console.log(($packageJson).cacheInstall.path || '')")
 fi
 host=$cacheInstallHost
-pjHash=$(node << jscode | shasum | cut -c 1-40
+if [[ -e "npm-shrinkwrap.json" ]]
+then
+	thingToHash=$(cat npm-shrinkwrap.json)
+else
+	thingToHash=$(node << jscode
 with ($packageJson) {
 	console.log({
 		dependencies: dependencies,
@@ -27,6 +31,8 @@ with ($packageJson) {
 }
 jscode
 )
+fi
+pjHash=$(echo $thingToHash | shasum | cut -c 1-40)
 unameHash=$(uname -mps | shasum | cut -c 1-40)
 modulesHash="DEPS${pjHash}${delim}ARCH${unameHash}"
 hostNodeModules="node_modules-$modulesHash"
