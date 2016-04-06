@@ -4,20 +4,10 @@ npm scripts for caching and retrieving node_modules.
 
 ## installation
 
+it is recomended that npm-build-cache be installed globally:
+
 ```js
-npm install --save-dev npm-build-cache
-```
-
-`npm-build-cache` scripts can also be installed globally with the `-g` flag.
-
-Recomended script in `package.json`:
-```json
-{
-    "scripts": {
-        "postinstall": "npm-build-cache-sign-install",
-        "cacheinstall": "npm-restore-modules || (cleaninstall && npm-cache-modules)"
-    }
-}
+npm install -g npm-build-cache
 ```
 
 ## configuration
@@ -50,13 +40,21 @@ If `cacheInstall` is defined as a property in `package.json`, then `cacheInstall
 ...
 ```
 
-## the scripts
+## usage
 
-### `bin/sign-install` / `.bin/npm-build-cache-sign-install`
+### `npm-cache-install`
+
+run `npm-cache-install` in your package root instead of `npm install` to use the cache if it exists, or build the cache if the cache does not exist.
+
+### the plumbing
+
+`cache-install` calls a few separate scripts to do its work. They are described below and are also available for use on the command line.
+
+#### `npm-build-cache-sign-install`
 
 It is recomended that this script be run immediately after a clean install of `node_modules`. It will write the hash of your `package.json` in `node_modules/.npm-module-cache.hash`. `cache-modules` will fail if the hash of your current `package.json` does not equal the contents of this file.
 
-### `bin/cache-modules` / `.bin/npm-cache-modules`
+#### `npm-cache-modules`
 
 Uses ssh and scp to conditionally upload `node_modules` to `$cacheInstallHost` as node_modules-DEPS${shasum of package.json}-ARCH${shasum of uname -mprsv}.
 
@@ -69,7 +67,7 @@ Recomendations:
 * Install a cronjob on the cache host that removes `node_modules` directories with old access times.
 
 
-### `bin/restore-modules` / `.bin/npm-restore-modules`
+#### `npm-restore-modules`
 
 rsyncs the cached `node_modules` from the cache host to your machine, according to the current package.json and your machine's architecture.
 

@@ -20,10 +20,12 @@ fi
 host=$cacheInstallHost
 pjHash=$(node << jscode | shasum | cut -c 1-40
 with ($packageJson) {
+	dependencies = 'undefined' !== typeof dependencies ? dependencies : undefined;
+	devDependencies = 'undefined' !== typeof devDependencies ? devDependencies: undefined;
 	console.log({
 		dependencies: dependencies,
 		devDependencies: devDependencies
-	})
+	});
 }
 jscode
 )

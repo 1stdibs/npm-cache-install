@@ -1,0 +1,2 @@
+touch $testTmp/restore-modules-ran
+exit $restoreModulesExitCode
