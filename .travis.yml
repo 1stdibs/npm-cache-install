@@ -1,9 +1,8 @@
 language: bash
 before_script:
+  - nvm install 4.4.0
   - npm run prepublish
 install:
   - npm install
 script:
   - npm test
-node_js:
-  - '4.2.2'
