@@ -17,7 +17,7 @@ setup() {
 }
 teardown() {
 	cd $testStart
-	rm -rf testtmp
+	rm -rf $testTmp
 }
 makePackageJson() {
 	cat << json > package.json
