@@ -17,6 +17,7 @@ pathToModulesOnHost=${cacheInstallDest}$hostNodeModules
 if ! $ssh $host [ -d $pathToModulesOnHost ] &> /dev/null
 then
 	echo "cache does not exist at $host:${cacheInstallDest}$hostNodeModules"
+	$ssh -q -O exit $host 2> /dev/null
 	exit 1
 fi
 if ! $ssh $host touch -c $pathToModulesOnHost
