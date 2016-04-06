@@ -31,14 +31,14 @@ The configuration values can be set in one of two ways:
 
 ```sh
 export cacheInstallHost="modulecache.example.com" # sets cacheInstall.host
-export cacheInstallDest="/path/to/module/cache" # sets cacheInstall.path
+export cacheInstallPath="/path/to/module/cache" # sets cacheInstall.path
 ```
 
 All scripts source `$HOME/.npm-cache-install` before they run, so you can set these values there.
 
 ### through package.json:
 
-If `cacheInstall` is defined as a property in `package.json`, then `cacheInstallHost` and `cacheInstallDest` will both be overridden.
+If `cacheInstall` is defined as a property in `package.json`, then `cacheInstallHost` and `cacheInstallPath` will both be overridden.
 
 `package.json`:
 ```json

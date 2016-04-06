@@ -1,6 +1,6 @@
 setup() {
 	export cacheInstallHost="mockhost"
-	export cacheInstallDest="./"
+	export cacheInstallPath="./"
 	export build="$(pwd)/build"
 	export testStart=$(pwd)
 	export testTmp="$testStart/testTmp"
@@ -36,7 +36,7 @@ json
 writeDotFile() {
 	echo $HOME/.npm-cache-install
 	cat > $HOME/.npm-cache-install << DOTFILE
-export cacheInstallDest="dotfilecacheInstallDest"
+export cacheInstallPath="dotfilecacheInstallPath"
 export cacheInstallHost="dotfilecachehost"
 DOTFILE
 }
