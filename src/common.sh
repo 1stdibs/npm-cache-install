@@ -26,7 +26,11 @@ then
 	cacheInstallPath='/tmp/node_modules-cache/'
 fi
 host=$cacheInstallHost
-pjHash=$(node << jscode | shasum | cut -c 1-40
+if [[ -e "npm-shrinkwrap.json" ]]
+then
+	thingToHash=$(cat npm-shrinkwrap.json)
+else
+	thingToHash=$(node << jscode
 with ($packageJson) {
 	dependencies = 'undefined' !== typeof dependencies ? dependencies : undefined;
 	devDependencies = 'undefined' !== typeof devDependencies ? devDependencies: undefined;
@@ -37,6 +41,8 @@ with ($packageJson) {
 }
 jscode
 )
+fi
+pjHash=$(echo $thingToHash | shasum | cut -c 1-40)
 unameHash=$(uname -mps | shasum | cut -c 1-40)
 modulesHash="DEPS${pjHash}${delim}ARCH${unameHash}"
 hostNodeModules="node_modules-$modulesHash"
