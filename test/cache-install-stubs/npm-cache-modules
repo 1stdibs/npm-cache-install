@@ -1,0 +1,2 @@
+touch $testTmp/cache-modules-ran
+exit $cacheModulesExitCode

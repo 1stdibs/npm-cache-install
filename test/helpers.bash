@@ -1,6 +1,6 @@
 setup() {
 	export cacheInstallHost="mockhost"
-	export cacheInstallDest="./"
+	export cacheInstallPath="./"
 	export build="$(pwd)/build"
 	export testStart=$(pwd)
 	export testTmp="$testStart/testTmp"
@@ -8,6 +8,7 @@ setup() {
 	export remote="$testTmp/remote"
 	export PATH="$testStart/test/bin-mock:$PATH"
 	export HOME=$testTmp
+	export npmPrefix=$testTmp/npmPrefix
 	mkdir -p $testPkg
 	mkdir -p $remote
 	cd $testPkg
@@ -36,7 +37,18 @@ json
 writeDotFile() {
 	echo $HOME/.npm-cache-install
 	cat > $HOME/.npm-cache-install << DOTFILE
-export cacheInstallDest="dotfilecacheInstallDest"
+export cacheInstallPath="dotfilecacheInstallPath"
 export cacheInstallHost="dotfilecachehost"
 DOTFILE
+}
+stubCacheInstallScripts() {
+	export PATH="$testStart/test/cache-install-stubs:$PATH"
+}
+globalInstallPackage() {
+	rm -rf $npmPrefix
+	mkdir -p $npmPrefix
+	pushd $testStart
+	NPM_CONFIG_PREFIX=$npmPrefix npm install -g
+	popd
+	export PATH=$npmPrefix/bin:$PATH
 }

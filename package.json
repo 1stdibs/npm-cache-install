@@ -5,20 +5,22 @@
   "main": "index.js",
   "scripts": {
     "test": "bats test/*.bats",
-    "prepublish": "make clean && make all"
+    "prepublish": "make clean && make all",
+    "preinstall": "npm run prepublish"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antialias/npm-build-cache.git"
+    "url": "git+https://github.com/1stdibs/npm-build-cache.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/antialias/npm-build-cache/issues"
+    "url": "https://github.com/1stdibs/npm-build-cache/issues"
   },
-  "homepage": "https://github.com/antialias/npm-build-cache#readme",
+  "homepage": "https://github.com/1stdibs/npm-build-cache#readme",
   "bin": {
-    "cleaninstall": "./cleaninstall.sh",
+    "npm-cache-install": "./src/cache-install.sh",
+    "npm-clean-install": "./src/clean-install.sh",
     "npm-cache-modules": "./build/cache-modules",
     "npm-restore-modules": "./build/restore-modules",
     "npm-build-cache-sign-install": "./build/sign-install"
@@ -26,5 +28,8 @@
   "devDependencies": {
     "bats": "^0.4.2",
     "jq-cli-wrapper": "^0.3.0"
+  },
+  "dependencies": {
+    "child-process-promise": "^1.1.0"
   }
 }

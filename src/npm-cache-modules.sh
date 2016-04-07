@@ -1,4 +1,4 @@
-# $ssh, scp, $unameHash, $modulesHash, $pjHash, $hostTarPath, $hostDirPath, $tarName, $dirName set by common.sh
+# $host, $ssh, scp, $unameHash, $modulesHash, $pjHash, $hostTarPath, $hostDirPath, $tarName, $dirName set by common.sh
 
 if [[ -e $hashFilePath && $pjHash != $(cat $hashFilePath) ]]
 then
@@ -8,15 +8,10 @@ fi
 
 echo "Conditionally caching node_modules for $(pwd)"
 set -e # exit on error
-if [[ -z "$cacheInstallHost" ]]
-then
-	echo "cacheInstallHost environment variable required"
-	exit 1
-fi
 
-if [[ -z "$cacheInstallDest" ]]
+if [[ -z "$cacheInstallPath" ]]
 then
-	cacheInstallDest='/tmp/node_modules-cache/'
+	cacheInstallPath='/tmp/node_modules-cache/'
 fi
 if which gtar
 then
@@ -32,17 +27,17 @@ fi
 tmp=".npm-build-cache-tmp"
 mkdir -p $tmp
 tarPath=$tmp/$tarName
-$ssh -f -M $host sleep 1000 > /dev/null # background ssh control master for subsequent connections
+openSSHSocket
 if [[ -z "$forceUpload" ]] && ( $ssh $host stat $hostDirPath &> /dev/null )
 then
 	echo "node_modules for your package.json have already been cached"
-	$ssh -q -O exit $host 2> /dev/null # close the ssh socket
+	closeSSHSocket
 	exit
 fi
 echo "Hash for your package.json is $modulesHash"
 echo "Creating tgz of your node_modules in $tarPath. This may take a while if node_nodules is big."
 $tar czf $tarPath node_modules
-$ssh $host "mkdir -p $cacheInstallDest"
+$ssh $host "mkdir -p $cacheInstallPath"
 if $ssh $host stat $hostTarPath
 then
 	echo "$hostTarPath already exists on $host. Aborting because an upload may be in progress from elsewhere."
@@ -65,4 +60,4 @@ $ssh -T $host << script
 	rm -f $hostTarPath
 script
 echo "your current node_modules directory is now cached on $host at $hostDirPath"
-$ssh -q -O exit $host 2> /dev/null # close the ssh socket
+closeSSHSocket

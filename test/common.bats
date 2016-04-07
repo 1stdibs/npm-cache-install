@@ -1,36 +1,36 @@
 #!/usr/bin/env bats
 load helpers
-@test 'common sets cacheInstallHost and cacheInstallDest from $HOME/.npm-cache-install' {
+@test 'common sets cacheInstallHost and cacheInstallPath from $HOME/.npm-cache-install' {
 	writeDotFile
-	cacheInstallDest=""
+	cacheInstallPath=""
 	cacheInstallHost=""
 	load $build/common
-	[[ "$cacheInstallDest" = "dotfilecacheInstallDest" ]]
+	[[ "$cacheInstallPath" = "dotfilecacheInstallPath" ]]
 	[[ "$cacheInstallHost" = "dotfilecachehost" ]]
 }
-@test 'common sets cacheInstallHost and cacheInstallDest from package.json when cacheinstall property is present' {
+@test 'common sets cacheInstallHost and cacheInstallPath from package.json when cacheinstall property is present' {
 	writeDotFile
 	makePackageJson
 	cat package.json | jq '.cacheInstall={
 		"host": "pjhost",
 		"path": "pjpath"
 	}' > package.json
-	cacheInstallDest=""
+	cacheInstallPath=""
 	cacheInstallHost=""
 	load $build/common
-	[[ "$cacheInstallDest" = "pjpath" ]]
+	[[ "$cacheInstallPath" = "pjpath" ]]
 	[[ "$cacheInstallHost" = "pjhost" ]]
 }
-@test 'common unsets cacheInstallDest when it is specified in dotfile but not specified in package.json' {
+@test 'common unsets cacheInstallPath when it is specified in dotfile but not specified in package.json' {
 	writeDotFile
 	makePackageJson
 	cat package.json | jq '.cacheInstall={
 		"host": "pjhost"
 	}' > package.json
-	cacheInstallDest=""
+	cacheInstallPath=""
 	cacheInstallHost=""
 	load $build/common
-	[[ -z "$cacheInstallDest" ]]
+	[[ "$cacheInstallPath" = "/tmp/node_modules-cache/" ]]
 	[[ "$cacheInstallHost" = "pjhost" ]]
 }
 @test 'common unsets cacheInstallHost when it is specified in dotfile but not specified in package.json' {
@@ -39,9 +39,9 @@ load helpers
 	cat package.json | jq '.cacheInstall={
 		"path": "pjpath"
 	}' > package.json
-	cacheInstallDest=""
+	cacheInstallPath=""
 	cacheInstallHost=""
 	load $build/common
-	[[ "$cacheInstallDest" = "pjpath" ]]
-	[[ -z "$cacheInstallHost" ]]
+	[[ "$cacheInstallPath" = "pjpath" ]]
+	[[ "$cacheInstallHost" = "localhost" ]]
 }

@@ -7,16 +7,12 @@ then
 	echo "cacheInstallHost environment variable required"
 	exit 1
 fi
-if [[ -z "$cacheInstallDest" ]]
-then
-	cacheInstallDest='/tmp/node_modules-cache/'
-fi
 
 $ssh -f -M $host sleep 1000 > /dev/null # background ssh control master for subsequent connections
-pathToModulesOnHost=${cacheInstallDest}$hostNodeModules
+pathToModulesOnHost=${cacheInstallPath}$hostNodeModules
 if ! $ssh $host [ -d $pathToModulesOnHost ] &> /dev/null
 then
-	echo "cache does not exist at $host:${cacheInstallDest}$hostNodeModules"
+	echo "cache does not exist at $host:${cacheInstallPath}$hostNodeModules"
 	$ssh -q -O exit $host 2> /dev/null
 	exit 1
 fi
