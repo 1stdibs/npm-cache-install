@@ -13,7 +13,7 @@ setup() {
 	mkdir -p $remote
 	cd $testPkg
 	makePackageJson
-	mkdir -p node_modules
+	mkdir -p node_modules/fake-package
 	source $build/common
 }
 teardown() {

@@ -2,31 +2,20 @@
 load helpers
 @test "cache-modules does not attempt to recache modules if they are already present in the cache" {
 	run $build/sign-install
-	run $build/cache-modules
-	first=$status
-	firstMtime=$(stat $remote/$cacheInstallPath$hostDirPath)
-	run $build/cache-modules
-	second=$status
-	secondMtime=$(stat $remote/$cacheInstallPath$hostDirPath)
-	[[ $first -eq 0 ]]
-	[[ $second -eq 0 ]]
-	! [[ -z "$firstMtime" ]]
-	! [[ -z "$secondMtime" ]]
-	[[ "$firstMtime" = "$secondMtime" ]]
+	$build/cache-modules
+	cp -R $remote/$cacheInstallPath$hostDirPath $remote/$cacheInstallPath$hostDirPath-stashed
+	rm -rf $remote/$cacheInstallPath$hostDirPath/*
+	$build/cache-modules # bats run doesnt allow setting inline environment variables
+	! diff $remote/$cacheInstallPath$hostDirPath $remote/$cacheInstallPath$hostDirPath-stashed
 }
 @test "cache-modules does attempt to recache modules if they are already present in the cache and forceUpload is set" {
 	run $build/sign-install
-	run $build/cache-modules
-	first=$status
-	firstMtime=$(stat $remote/$cacheInstallPath$hostDirPath)
-	forceUpload=true $build/cache-modules # bats run doesnt allow setting inline environemnt variables
-	second=$?
-	secondMtime=$(stat $remote/$cacheInstallPath$hostDirPath)
-	[[ $first -eq 0 ]]
-	[[ $second -eq 0 ]]
-	! [[ -z "$firstMtime" ]]
-	! [[ -z "$secondMtime" ]]
-	! [[ "$firstMtime" = "$secondMtime" ]]
+	$build/cache-modules
+	cp -R $remote/$cacheInstallPath$hostDirPath $remote/$cacheInstallPath$hostDirPath-stashed
+	rm -rf $remote/$cacheInstallPath$hostDirPath/*
+	touch $remote/$cacheInstallPath$hostDirPath/something-in-here
+	forceUpload=true $build/cache-modules # bats run doesnt allow setting inline environment variables
+	diff $remote/$cacheInstallPath$hostDirPath $remote/$cacheInstallPath$hostDirPath-stashed
 }
 @test "cache-modules copies node_modules over to the remote" {
 	run $build/sign-install
