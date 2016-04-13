@@ -54,13 +54,12 @@ export dirName=node_modules-$modulesHash
 export tarName=$dirName.tgz
 export hostDirPath=$cacheInstallPath$dirName
 export hostTarPath=$cacheInstallPath$tarName
-if [[ $(rsync --version | head -n1 | cut -f4 "-d " | cut -d. -f1) -gt 2 ]]
+rsync="rsync -h"
+if $rsync --dry-run --info=progress2 . . &> /dev/null # test rsync for progress display support
 then
-	rsync="rsync -h --info=progress2"
-else
-	echo "install rsync 3 or later for detailed progress"
-	rsync="rsync -h"
+	rsync="$rsync --info=progress2"
 fi
+export rsync
 openSSHSocket() {
 	$ssh -f -M $host sleep 1000 > /dev/null # background ssh control master for subsequent connections
 }
