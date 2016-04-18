@@ -35,7 +35,5 @@
     "bats": "^0.4.2",
     "jq-cli-wrapper": "^0.3.0"
   },
-  "dependencies": {
-    "child-process-promise": "^1.1.0"
-  }
+  "dependencies": {}
 }
