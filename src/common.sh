@@ -54,6 +54,9 @@ export dirName=node_modules-$modulesHash
 export tarName=$dirName.tgz
 export hostDirPath=$cacheInstallPath$dirName
 export hostTarPath=$cacheInstallPath$tarName
+export staleDirectoryLimitMinutes="10"
+export staleCompleteTarMinutes="10"
+export stalePartialTarMinutes="2"
 rsync="rsync -h"
 if $rsync --dry-run --info=progress2 . . &> /dev/null # test rsync for progress display support
 then
@@ -66,3 +69,20 @@ openSSHSocket() {
 closeSSHSocket() {
 	$ssh -q -O exit $host 2> /dev/null # close the ssh socket
 }
+userForRemoteFile() {
+	echo $($ssh $host "ls -ld '$1'" | awk '{print $3}')
+}
+if touch -A00 /dev/null &> /dev/null
+then
+	setInThePast() {
+		file=$1
+		amount=$2
+		touch -A-$(printf "%02d" $amount)00 "$file"
+	}
+else
+	setInThePast() {
+		file=$1
+		amount=$2
+		touch -d "-$amount minute" "$file"
+	}
+fi
