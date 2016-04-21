@@ -16,10 +16,18 @@ then
 	$ssh -q -O exit $host 2> /dev/null
 	exit 1
 fi
+$ssh $host "ls -ld $pathToModulesOnHost"
 if ! $ssh $host touch -c $pathToModulesOnHost
 then
 	echo "error when attempting to touch modules on $host at $pathToModulesOnHost"
 fi
-echo "pulling in your new modules from $pathToModulesOnHost"
+creditTo=$(userForRemoteFile $hostDirPath)
+if [[ "$(whoami)" = "$creditTo" ]]
+then
+	creditTo="your"
+else
+	creditTo="$creditTo's"
+fi
+echo "pulling in $creditTo cache from $host:$pathToModulesOnHost"
 $rsync -e "$ssh" --delete -az $host:$pathToModulesOnHost/ node_modules
 $ssh -q -O exit $host 2> /dev/null # close the ssh socket
