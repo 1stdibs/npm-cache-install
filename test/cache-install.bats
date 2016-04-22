@@ -32,3 +32,15 @@ load helpers
 	run $testStart/src/cache-install.sh
 	[[ $status -eq 1 ]]
 }
+@test 'should not run npm-cache-modules if npm-clean-install fails' {
+	globalInstallPackage
+	stubCacheInstallScripts
+	restoreModulesExitCode=1 \
+	cacheSignInstallExitCode=0 \
+	cleanInstallExitCode=1 \
+	cacheModulesExitCode=0 \
+	run $testStart/src/cache-install.sh
+	stat $testTmp/clean-install-ran
+	! stat $testTmp/cache-modules-ran
+	[[ $status -eq 1 ]]
+}
