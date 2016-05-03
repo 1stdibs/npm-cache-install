@@ -32,6 +32,27 @@ load helpers
 	run $testStart/src/cache-install.sh
 	[[ $status -eq 1 ]]
 }
+@test 'should exit with failure if cache-modules failes and okIfCacheFailed is falsy' {
+	globalInstallPackage
+	stubCacheInstallScripts
+	restoreModulesExitCode=1 \
+	cacheSignInstallExitCode=0 \
+	cleanInstallExitCode=0 \
+	cacheModulesExitCode=1 \
+	run $testStart/src/cache-install.sh
+	[[ $status -eq 1 ]]
+}
+@test 'should exit with failure if cache-modules failes and okIfCacheFailed is truthy' {
+	globalInstallPackage
+	stubCacheInstallScripts
+	restoreModulesExitCode=1 \
+	cacheSignInstallExitCode=0 \
+	cleanInstallExitCode=0 \
+	cacheModulesExitCode=1 \
+	okIfCacheFailed=1 \
+	run $testStart/src/cache-install.sh
+	[[ $status -eq 0 ]]
+}
 @test 'should not run npm-cache-modules if npm-clean-install fails' {
 	globalInstallPackage
 	stubCacheInstallScripts
