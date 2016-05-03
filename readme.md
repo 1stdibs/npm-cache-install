@@ -46,6 +46,10 @@ If `cacheInstall` is defined as a property in `package.json`, then `cacheInstall
 
 run `npm-cache-install` in your package root instead of `npm install` to use the cache if it exists, or build the cache if the cache does not exist.
 
+#### environment variables
+
+Set `okIfCacheFailed` to a non-empty value if you do not want the caching attempt to cause the entire command to fail.
+
 ### the plumbing
 
 `cache-install` calls a few separate scripts to do its work. They are described below and are also available for use on the command line.
