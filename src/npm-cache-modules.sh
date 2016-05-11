@@ -46,12 +46,14 @@ if $ssh $host stat $hostTarPath &> /dev/null
 then
 	echo "$(userForRemoteFile $hostTarPath) may be in the middle of uploading $hostTarPath."
 	echo "Try again in $staleCompleteTarMinutes minutes."
+	closeSSHSocket
 	exit 1
 fi
 if $ssh $host stat $hostTarPath.part &> /dev/null # test upload in-progress
 then
 	echo "$(userForRemoteFile $hostTarPath.part) may be waiting for their script to finish extracting $hostTarPath.part."
 	echo "Try again in $stalePartialTarMinutes minutes."
+	closeSSHSocket
 	exit 1
 fi
 echo "uploading $tarPath to $host:$hostTarPath"
@@ -65,6 +67,7 @@ script
 if $ssh $host "[[ -e $hostDirPath.part ]]"
 then
 	echo "$(userForRemoteFile "$hostDirPath.part") may be waiting for $hostDirPath.part to be extracted on $host. Try again in $staleDirectoryLimitMinutes minutes"
+	closeSSHSocket
 	exit 1
 fi
 $ssh -T $host << script
