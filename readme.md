@@ -12,12 +12,14 @@ npm install -g npm-build-cache
 
 ## configuration
 
+### client-side
+
 * `cacheInstall.host` sets the hostname of the cache server. Defaults to `localhost`
 * `cacheInstall.path` sets the path to the cache on the cache server. Defaults to `/tmp/node_modules-cache/`
 
 The configuration values can be set in one of two ways:
 
-### as environment variables
+#### as environment variables
 
 ```sh
 export cacheInstallHost="modulecache.example.com" # sets cacheInstall.host
@@ -26,7 +28,7 @@ export cacheInstallPath="/path/to/module/cache" # sets cacheInstall.path
 
 All scripts source `$HOME/.npm-cache-install` before they run, so you can set these values there.
 
-### through package.json:
+#### through package.json:
 
 If `cacheInstall` is defined as a property in `package.json`, then `cacheInstallHost` and `cacheInstallPath` will both be overridden.
 
@@ -38,6 +40,20 @@ If `cacheInstall` is defined as a property in `package.json`, then `cacheInstall
     "path": "/path/to/module/cache",
 },
 ...
+```
+
+### server-side
+
+No special software is required on the server-side, just bash, rsync, scp, ssh server, tar and gzip, which you probably already have up and running if your'e using centos or any other major distribution.
+
+What you will need to do is set up a directory that has read / write permissions by the users that will be building and using the caches.
+
+#### clean-up
+
+If your cache server gains traction, you'll probably want clean up older caches. A simple cronjob is sufficient for most deployments. This example deletes caches older than 10 days,e very day at midnight:
+
+```crontab
+0 0 * * * find /path/to/module-cache/  -maxdepth 1 -mtime +10 -delete
 ```
 
 ## usage
