@@ -50,7 +50,7 @@ What you will need to do is set up a directory that has read / write permissions
 
 #### clean-up
 
-If your cache server gains traction, you'll probably want clean up older caches. A simple cronjob is sufficient for most deployments. This example deletes caches older than 10 days,e very day at midnight:
+If your cache server gains traction, you'll probably want clean up older caches. A simple cronjob is sufficient for most deployments. This example deletes caches older than 10 days, every day at midnight:
 
 ```crontab
 0 0 * * * find /path/to/module-cache/  -maxdepth 1 -mtime +10 -delete
